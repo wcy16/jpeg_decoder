@@ -28,6 +28,7 @@ struct huff_table
 	unsigned char weight[5000];
 };
 
+struct color_info
 {
 	int id;
 	int dc_huff_id;
