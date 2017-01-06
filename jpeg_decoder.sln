@@ -5,12 +5,16 @@ VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jpeg_decoder", "jpeg_decoder\jpeg_decoder.vcxproj", "{1574D4F7-315F-4522-9EDD-41DCDB572110}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jpeg_decoder_terminal_version", "jpeg_decoder_terminal_version\jpeg_decoder_terminal_version.vcxproj", "{87F56C51-0FF8-4DD0-8FEA-CB6CFDD955AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
+		TERMINAL_RELEASE|x64 = TERMINAL_RELEASE|x64
+		TERMINAL_RELEASE|x86 = TERMINAL_RELEASE|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{1574D4F7-315F-4522-9EDD-41DCDB572110}.Debug|x64.ActiveCfg = Debug|x64
@@ -21,6 +25,22 @@ Global
 		{1574D4F7-315F-4522-9EDD-41DCDB572110}.Release|x64.Build.0 = Release|x64
 		{1574D4F7-315F-4522-9EDD-41DCDB572110}.Release|x86.ActiveCfg = Release|Win32
 		{1574D4F7-315F-4522-9EDD-41DCDB572110}.Release|x86.Build.0 = Release|Win32
+		{1574D4F7-315F-4522-9EDD-41DCDB572110}.TERMINAL_RELEASE|x64.ActiveCfg = TERMINAL_RELEASE|x64
+		{1574D4F7-315F-4522-9EDD-41DCDB572110}.TERMINAL_RELEASE|x64.Build.0 = TERMINAL_RELEASE|x64
+		{1574D4F7-315F-4522-9EDD-41DCDB572110}.TERMINAL_RELEASE|x86.ActiveCfg = TERMINAL_RELEASE|Win32
+		{1574D4F7-315F-4522-9EDD-41DCDB572110}.TERMINAL_RELEASE|x86.Build.0 = TERMINAL_RELEASE|Win32
+		{87F56C51-0FF8-4DD0-8FEA-CB6CFDD955AA}.Debug|x64.ActiveCfg = Debug|x64
+		{87F56C51-0FF8-4DD0-8FEA-CB6CFDD955AA}.Debug|x64.Build.0 = Debug|x64
+		{87F56C51-0FF8-4DD0-8FEA-CB6CFDD955AA}.Debug|x86.ActiveCfg = Debug|Win32
+		{87F56C51-0FF8-4DD0-8FEA-CB6CFDD955AA}.Debug|x86.Build.0 = Debug|Win32
+		{87F56C51-0FF8-4DD0-8FEA-CB6CFDD955AA}.Release|x64.ActiveCfg = Release|x64
+		{87F56C51-0FF8-4DD0-8FEA-CB6CFDD955AA}.Release|x64.Build.0 = Release|x64
+		{87F56C51-0FF8-4DD0-8FEA-CB6CFDD955AA}.Release|x86.ActiveCfg = Release|Win32
+		{87F56C51-0FF8-4DD0-8FEA-CB6CFDD955AA}.Release|x86.Build.0 = Release|Win32
+		{87F56C51-0FF8-4DD0-8FEA-CB6CFDD955AA}.TERMINAL_RELEASE|x64.ActiveCfg = Release|x64
+		{87F56C51-0FF8-4DD0-8FEA-CB6CFDD955AA}.TERMINAL_RELEASE|x64.Build.0 = Release|x64
+		{87F56C51-0FF8-4DD0-8FEA-CB6CFDD955AA}.TERMINAL_RELEASE|x86.ActiveCfg = Release|Win32
+		{87F56C51-0FF8-4DD0-8FEA-CB6CFDD955AA}.TERMINAL_RELEASE|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

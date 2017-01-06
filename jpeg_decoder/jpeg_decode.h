@@ -8,7 +8,7 @@
 class jpeg_pic
 {
 public:
-    jpeg_pic(char* path);
+    jpeg_pic(const char* path);
 
 	int pic_info_decode();                 // 0 err & 1 baseline & 2 progressive
 	bool decode_info(int i);

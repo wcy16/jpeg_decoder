@@ -18,7 +18,7 @@
 
 //#define PROGRESSIVE_DEBUG
 
-jpeg_pic::jpeg_pic(char* path)
+jpeg_pic::jpeg_pic(const char* path)
 {
 	// init var
 	y_diff = 0;
