@@ -17,7 +17,8 @@ MyFrame::MyFrame(const wxString& title) :
 	if (fileName.IsEmpty() == 0) {
 
 		j_pic = new jpeg_pic(fileName.char_str());
-		if (j_pic->decode_info())
+		int info = j_pic->pic_info_decode();
+		if (j_pic->decode_info(info))
 		{
 			std::string msg = j_pic->get_msg();
 			wxMessageDialog * dial = new wxMessageDialog(NULL, msg, _T("Error"), wxOK | wxICON_ERROR);
@@ -41,7 +42,7 @@ MyFrame::MyFrame(const wxString& title) :
 				cl_w = w;
 			SetSize(cl_w, cl_h);
 #endif
-
+			j_pic->to_bmp("btest.bmp");
 			boardpanel = new board(this, h, w, j_pic);
 		}
 		

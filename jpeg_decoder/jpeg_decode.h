@@ -5,57 +5,40 @@
 #include <deque>
 #include "glob_var.h"
 
-struct huff_table
-{
-    int length;
-    int prop;
-    long int codeword[5000];
-    long int cw_leng[5000];
-    //char codeword[5000][50];
-    unsigned char weight[5000];
-};
-
-struct color_info
-{
-    int id;
-    int dc_huff_id;
-    int ac_huff_id;
-    int h_sample_factor;
-    int v_sample_factor;
-    int q_table_id;
-};
-
-struct quan_table
-{
-	int val[64];
-};
-
 class jpeg_pic
 {
 public:
     jpeg_pic(char* path);
 
-    bool decode_info();
-	void decode_mcu_test();
-	IMG_LEN decode_mcu(int mcu_id, IMG_LEN start_of_mcu);
-	int get_mcu_len();
-	int get_mcu_h_count() { return h_mcu_count; }
-	int get_mcu_w_count() { return w_mcu_count; }
-	int get_pic_h() { return h_size; }
-	int get_pic_w() { return w_size; }
-	void decode_next_mcu();
-	unsigned char get_mcu_r(int x);
-	unsigned char get_mcu_g(int x);
-	unsigned char get_mcu_b(int x);
-	void reset_som();
-	void to_rgb();
+	int pic_info_decode();                 // 0 err & 1 baseline & 2 progressive
+	bool decode_info(int i);
+	bool decode_info_b();                    // baseline info decode
+	bool decode_info_p();                    // progressive info decode
 
+	// baseline decode related function
+	void decode_mcu_test();            // test function for mcu decode, basically debug use
+	IMG_LEN decode_mcu(int mcu_id, IMG_LEN start_of_mcu);  // decode a mcu
+	int get_mcu_len();                      // get pixel count of a mcu's length
+	int get_mcu_h_count() { return h_mcu_count; }   // get mcu count of a picture in height
+	int get_mcu_w_count() { return w_mcu_count; }   // get mcu count of a picture in width
+	int get_pic_h() { return h_size; }       // get pixel count of a picture in height
+	int get_pic_w() { return w_size; }       // get pixel count of a picture in width
+	void decode_next_mcu();            // decode related, decode next mcu
+	unsigned char get_mcu_r(int x);   // get red value of a given position of the mcu in buffer
+	unsigned char get_mcu_g(int x);   // get green value of a given position of the mcu in buffer
+	unsigned char get_mcu_b(int x);   // get blue value of a given position of the mcu in buffer
+	void reset_som();    // reset start of mcu and other parameters related
+	void to_rgb();    // adjust sequence and output to rgb
+
+	// get picture's rgb
 	unsigned char get_pic_r(int x, int y);
 	unsigned char get_pic_g(int x, int y);
 	unsigned char get_pic_b(int x, int y);
 
-	std::string get_msg();
+	std::string get_msg();  // get message from the decoder, mostly error message
 
+	// transfer jpeg file format to other file format
+	void to_bmp(std::string file_path);
 	
 
 private:
@@ -69,7 +52,7 @@ private:
 	IMG_LEN dqt[4] = { 0, 0, 0, 0 };    // define quantization table
 	int q_table_count = 0;  // indicate the number of dqt
     IMG_LEN sof = 0;    // start of frame
-    IMG_LEN dht[4] = {0, 0, 0, 0};    // define Huffman table
+    IMG_LEN dht[100];    // define Huffman table
     int huff_count = 0;   // indicate the number of dht
     IMG_LEN sos = 0;    // start of scan
 	IMG_LEN sod = 0;  // start of data
@@ -100,6 +83,9 @@ private:
 	unsigned char* b_buffer;
 
 	std::string msg;
+
+	// progressive decode variables
+
 
 
 };

@@ -1,8 +1,18 @@
 #include <iostream>
 #include <stdio.h>
 #include <conio.h>
-#include "main.h"
+
+#define GUI_DEBUG
+
+#ifdef GUI_DEBUG
+#include<wx/wx.h>
 #include "MyFrame.h"
+
+class MyApp : public wxApp
+{
+public:
+	virtual bool OnInit();
+};
 
 IMPLEMENT_APP(MyApp)
 
@@ -15,3 +25,7 @@ bool MyApp::OnInit()
 
 	return true;
 }
+#else
+#include "jpeg_decode.h"
+
+#endif

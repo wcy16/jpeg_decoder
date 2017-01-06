@@ -3,6 +3,7 @@
 
 #include <wx/wx.h>
 #include <vector>
+#include <wx/dcbuffer.h>
 #include "jpeg_decode.h"
 
 class board : public wxScrolledWindow
@@ -17,6 +18,8 @@ private:
 
 
 	void OnPaint(wxPaintEvent& event);
+	void OnScroll(wxScrollEvent& event);
+	//void Paint(wxBufferedPaintDC dc);
 	//void DrawMcu(int x, int y );
 	
 	int flag;

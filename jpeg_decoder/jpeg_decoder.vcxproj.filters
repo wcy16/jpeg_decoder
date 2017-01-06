@@ -24,9 +24,6 @@
     <ClInclude Include="inv_dct.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="main.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="MyFrame.h">
       <Filter>头文件</Filter>
     </ClInclude>

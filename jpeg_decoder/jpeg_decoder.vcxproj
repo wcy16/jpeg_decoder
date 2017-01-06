@@ -23,7 +23,6 @@
     <ClInclude Include="glob_var.h" />
     <ClInclude Include="inv_dct.h" />
     <ClInclude Include="jpeg_decode.h" />
-    <ClInclude Include="main.h" />
     <ClInclude Include="MyFrame.h" />
   </ItemGroup>
   <ItemGroup>

@@ -1,13 +1,22 @@
+/*
+ * debug macro include
+ *    JPEG_DECODE_DEBUG
+ *    DEBUG_1
+ *    DEBUG_2
+ *    DEBUG_rgb
+ *    PROGRESSIVE_DEBUG
+ */
+
+
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include "jpeg_decode.h"
 #include "inv_dct.h"
 
-//#define JPEG_DECODE_DEBUG
-//#define DEBUG_1
-//#define DEBUG_2
-//#define DEBUG_rgb
+
+//#define PROGRESSIVE_DEBUG
 
 jpeg_pic::jpeg_pic(char* path)
 {
@@ -15,6 +24,7 @@ jpeg_pic::jpeg_pic(char* path)
 	y_diff = 0;
 	cr_diff = 0;
 	cb_diff = 0;
+	memset(dht, 0, sizeof(dht));
 
 	FILE *pf;    // image file
 
@@ -33,8 +43,36 @@ jpeg_pic::jpeg_pic(char* path)
 
 }
 
+int jpeg_pic::pic_info_decode()
+{
+	for (IMG_LEN i = 0; i < len; i++)
+	{
+		if (img_buf[i] == 0xff) {
+			switch (img_buf[i + 1])
+			{
+			case 0xc0: return 1; break;
+			case 0xc2: return 2; break;
+			default:  break;
+			}
+		}
+	}
+	return 0;
+}
 
-bool jpeg_pic::decode_info()
+bool jpeg_pic::decode_info(int i)
+{
+	bool b = 1;
+	switch (i)
+	{
+	case 0: b = 1; break;
+	case 1: b = decode_info_b(); break;
+	case 2: b = decode_info_p(); break;
+	default: b = 1;  break;
+	}
+	return b;
+}
+
+bool jpeg_pic::decode_info_b()
 {
 
 
@@ -1214,9 +1252,13 @@ void jpeg_pic::errmsg(int i)
 {	
 	switch (i)
 	{
-	case 0: msg = "Do not support progressive JPEG format!";
+	case 0: msg = "Not a baseline JPEG file!";
 		break;
 	case 1: msg = "Not a JPEG file!";
+		break;
+	case 2: msg = "Progressive JPEG decoder incompleted!";
+		break;
+	case 9: msg = "Unable to write in bmp file!";
 		break;
 	default: msg = "Error!";
 		break;
@@ -1227,4 +1269,103 @@ void jpeg_pic::errmsg(int i)
 std::string jpeg_pic::get_msg()
 {
 	return msg;
+}
+
+bool jpeg_pic::decode_info_p()
+{
+	// progressive decoder not complete
+#ifdef PROGRESSIVE_DEBUG
+	IMG_LEN img_p;   // indicate the position of image scan
+	int end_of_file;
+
+	img_p = 0;
+	end_of_file = 1;
+
+	while (end_of_file)
+	{
+		
+	}
+#else
+	errmsg(2);
+	return 1;
+
+
+
+#endif
+}
+
+void jpeg_pic::to_bmp(std::string file_path)
+{
+	unsigned long int data_size_per_line = ((w_size * 24 + 31) >> 5) << 2;
+	unsigned long int file_size = h_size * data_size_per_line;
+	unsigned long int color_size = h_size * w_size;
+	int skip_bits = data_size_per_line - w_size * 3;
+	unsigned char bits_fill[4] = { 0, 0, 0, 0 };
+	int w_len = w_mcu_count * mcu_size * 8;
+	BMPFILEHEADER bfh;
+	BMPINFOHEADER bih;
+	// bmp file header
+	bfh.bfType = 0x4d42;
+	bfh.bfSize = file_size + 54;
+	bfh.bfReserved1 = 0;
+	bfh.bfReserved2 = 0;
+	bfh.bfOffBits = 54;
+	// bmp info header
+	bih.biSize = sizeof(BMPINFOHEADER);
+	bih.biWidth = w_size;
+	//bih.biHeight = -h_size;
+	bih.biHeight = h_size;
+	bih.biPlanes = 1;
+	bih.biBitCount = 24;
+	bih.biCompression = 0;
+	bih.biSizeImage = file_size;
+	bih.biXPelsPerMeter = 3780;
+	bih.biYPelsPerMeter = 3780;
+	bih.biClrUsed = 0;  
+	bih.biClrImportant = 0;
+
+	FILE *fp = fopen(file_path.c_str(), "wb");
+	if (!fp)
+	{
+		errmsg(9);
+		return;
+	}
+
+	fwrite(&bfh.bfType, sizeof(bfh.bfType), 1, fp);
+	fwrite(&bfh.bfSize, sizeof(bfh.bfSize), 1, fp);
+	fwrite(&bfh.bfReserved1, sizeof(bfh.bfReserved1), 1, fp);
+	fwrite(&bfh.bfReserved2, sizeof(bfh.bfReserved2), 1, fp);
+	fwrite(&bfh.bfOffBits, sizeof(bfh.bfOffBits), 1, fp);
+
+	fwrite(&bih.biSize, sizeof(bih.biSize), 1, fp);
+	fwrite(&bih.biWidth, sizeof(bih.biWidth), 1, fp);
+	fwrite(&bih.biHeight, sizeof(bih.biHeight), 1, fp);
+	fwrite(&bih.biPlanes, sizeof(bih.biPlanes), 1, fp);
+	fwrite(&bih.biBitCount, sizeof(bih.biBitCount), 1, fp);
+	fwrite(&bih.biCompression, sizeof(bih.biCompression), 1, fp);
+	fwrite(&bih.biSizeImage, sizeof(bih.biSizeImage), 1, fp);
+	fwrite(&bih.biXPelsPerMeter, sizeof(bih.biXPelsPerMeter), 1, fp);
+	fwrite(&bih.biYPelsPerMeter, sizeof(bih.biYPelsPerMeter), 1, fp);
+	fwrite(&bih.biClrUsed, sizeof(bih.biClrUsed), 1, fp);
+	fwrite(&bih.biClrImportant, sizeof(bih.biClrImportant), 1, fp);
+	
+	/*
+	fwrite(b_buffer, color_size, 1, fp);
+	fwrite(g_buffer, color_size, 1, fp);
+	fwrite(r_buffer, color_size, 1, fp);
+	*/
+	//for (int i = 0; i < h_size; i++)	
+	for (int i = h_size - 1; i >= 0; i--)
+	{
+		for (int j = 0; j < w_size; j++) 
+		{
+			fwrite(b_buffer + i * w_len + j, sizeof(char), 1, fp);
+			fwrite(g_buffer + i * w_len + j, sizeof(char), 1, fp);
+			fwrite(r_buffer + i * w_len + j, sizeof(char), 1, fp);
+		}
+		//fwrite(bits_fill, sizeof(char), skip_bits, fp);
+		for (int k = 0; k < skip_bits; k++)
+			fwrite(bits_fill, sizeof(char), 1, fp);
+	}
+	fclose(fp);
 }
