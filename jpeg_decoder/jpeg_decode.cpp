@@ -948,24 +948,6 @@ IMG_LEN jpeg_pic::decode_mcu(int mcu_id, IMG_LEN start_of_mcu)
 	putchar('\n');
 #endif // JPEG_DECODE_DEBUG
 
-	// inverse odd
-	/*
-	for (int j = 0; j < 8; j++)
-	{
-	for (int i = 0; i < y_count; i++)
-	{
-	inv_y[i * 64 + 0 + j] = -inv_y[i * 64 + 0 + j];
-	inv_y[i * 64 + 16 + j] = -inv_y[i * 64 + 16 + j];
-	inv_y[i * 64 + 32 + j] = -inv_y[i * 64 + 32 + j];
-	inv_y[i * 64 + 48 + j] = -inv_y[i * 64 + 48 + j];
-
-	}
-	inv_cr[8 + j] = -inv_cr[8 + j];
-	inv_cb[8 + j] = -inv_cb[8 + j];
-	}
-	*/
-
-
 	// inverse dct
 	for (int i = 0; i < y_count; i++)
 	{

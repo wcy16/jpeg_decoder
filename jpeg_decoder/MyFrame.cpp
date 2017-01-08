@@ -42,7 +42,7 @@ MyFrame::MyFrame(const wxString& title) :
 				cl_w = w;
 			SetSize(cl_w, cl_h);
 #endif
-			j_pic->to_bmp("btest.bmp");
+			//j_pic->to_bmp("btest.bmp");
 			boardpanel = new board(this, h, w, j_pic);
 		}
 		
