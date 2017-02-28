@@ -14,7 +14,11 @@ public:
 
 
 private:
+	void paintImg();
+
 	jpeg_pic* j_pic;
+
+	wxBitmap* bmap;
 
 
 	void OnPaint(wxPaintEvent& event);

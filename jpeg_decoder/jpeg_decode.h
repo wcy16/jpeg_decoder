@@ -39,6 +39,7 @@ public:
 
 	// transfer jpeg file format to other file format
 	void to_bmp(std::string file_path);
+	void get_rgb(unsigned char* bitdata);
 	
 
 private:

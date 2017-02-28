@@ -1351,3 +1351,22 @@ void jpeg_pic::to_bmp(std::string file_path)
 	}
 	fclose(fp);
 }
+
+void jpeg_pic::get_rgb(unsigned char * bitdata)
+{
+	
+
+	int k = 0;
+	for (int j = 0; j < h_size; j++)
+	{
+		for (int i = 0; i < w_size; i++)
+		{
+			bitdata[k] = r_buffer[i + j * w_mcu_count * get_mcu_len()];
+			bitdata[k + 1] = g_buffer[i + j * w_mcu_count * get_mcu_len()];
+			bitdata[k + 2] = b_buffer[i + j * w_mcu_count * get_mcu_len()];
+			
+			k += 3;
+		}
+	}
+	
+}
